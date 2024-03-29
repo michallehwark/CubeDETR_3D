@@ -1,6 +1,6 @@
 
 [Instructions how to use HPC](#HPC_intructions)
-### CubeDetr_3d
+# CubeDetr_3d
 Understanding objects and their properties from single images is a longstanding problem in com-
 puter vision with applications in robotics and AR/VR. In the last decade, 2D object recogni-
 tion [6, 7, 9, 4, 10] has tremendously advanced in predicting objects on the image plane with the
