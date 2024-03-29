@@ -74,24 +74,24 @@ this will run the interactive gpu and you can activae again the conda enviroment
 
 [1] Garrick Brazil, Abhinav Kumar, Julian Straub, Nikhila Ravi, Justin Johnson, and Georgia Gkioxari.
 Omni3d: A large benchmark and model for 3d object detection in the wild. In Proceedings of the
-IEEE/CVF conference on computer vision and pattern recognition, pages 13154–13164, 2023.
+IEEE/CVF conference on computer vision and pattern recognition, pages 13154–13164, 2023.  
 [2] Nicolas Carion, Francisco Massa, Gabriel Synnaeve, Nicolas Usunier, Alexander Kirillov, and Sergey
 Zagoruyko. End-to-end object detection with transformers. In European conference on computer vision,
-pages 213–229. Springer, 2020.
+pages 213–229. Springer, 2020.  
 [3] A. Geiger, P. Lenz, and R. Urtasun. Are we ready for autonomous driving? the KITTI vision benchmark
-suite. 2012.
-[4] R. Girshick. Fast R-CNN. 2015.
+suite. 2012.  
+[4] R. Girshick. Fast R-CNN. 2015.  
 [5] Agrim Gupta, Piotr Dollar, and Ross Girshick. Lvis: A dataset for large vocabulary instance segmen-
-tation. 2019.
-[6] Kaiming He, Georgia Gkioxari, Piotr Doll ́ar, and Ross Girshick. Mask R-CNN. pages 2980–2988, 2017.
+tation. 2019.  
+[6] Kaiming He, Georgia Gkioxari, Piotr Doll ́ar, and Ross Girshick. Mask R-CNN. pages 2980–2988, 2017.  
 [7] Hei Law and Jia Deng. Cornernet: Detecting objects as paired keypoints. In Proceedings of the European
-conference on computer vision (ECCV), pages 734–750, 2018.
+conference on computer vision (ECCV), pages 734–750, 2018.  
 [8] Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva Ramanan, Piotr Doll ́ar,
 and C Lawrence Zitnick. Microsoft coco: Common objects in context. In Computer Vision–ECCV 2014:
 13th European Conference, Zurich, Switzerland, September 6-12, 2014, Proceedings, Part V 13, pages
-740–755. Springer, 2014.
+740–755. Springer, 2014.  
 [9] Joseph Redmon, Santosh Divvala, Ross Girshick, and Ali Farhadi. You only look once: Unified, real-time
-object detection. 2016.
+object detection. 2016.  
 [10] S. Ren, K. He, R. Girshick, and J. Sun. Faster R-CNN: Towards real-time object detection with region
-proposal networks. 2015.
-2
+proposal networks. 2015.  
+
