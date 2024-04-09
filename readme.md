@@ -33,13 +33,15 @@ In this project, you can use either the SUN RGB-D [11] or the KITTI dataset [3],
 - [Omni3D](https://github.com/facebookresearch/omni3d)
 
 ## Data strucure
+To dowload kitty dataset you can can run: 
+```
+sh downloadDataset.sh
+```
 
-*TODO*: Put the data structure  
-
-├── data  
+├── dataset  
 │   ├── KITTI  
 │   │   ├── ...  
-│   ├── SUN RGB-D  
+│   ├── ...
 │   │   ├── ...  
 │   ├── ...  
 ├── models  
