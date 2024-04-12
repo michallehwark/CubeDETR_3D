@@ -1,10 +1,12 @@
+#!/bin/bash
+
 # kitti dataset
 wget https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_image_2.zip
 
 # unzip image dataset
 unzip data_object_image_2.zip -d datasets
 
-# create directories for KITTI object dataset
+# create directories for KITTI object dataset if they don't exist
 mkdir -p datasets/KITTI_object/training/image_2
 mkdir -p datasets/KITTI_object/testing/image_2
 
