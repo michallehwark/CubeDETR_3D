@@ -1,2 +1,4 @@
 # file to ignore the file to github
-datasets/Kitti
+
+datasets
+LICENSE.md
