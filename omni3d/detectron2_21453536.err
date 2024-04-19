@@ -1,0 +1,25 @@
+Loaded module: cuda/10.1
+Traceback (most recent call last):
+  File "./demo/demo.py", line 12, in <module>
+    from detectron2.engine import default_argument_parser, default_setup, launch
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/engine/__init__.py", line 11, in <module>
+    from .hooks import *
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/engine/hooks.py", line 22, in <module>
+    from detectron2.evaluation.testing import flatten_results_dict
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/evaluation/__init__.py", line 2, in <module>
+    from .cityscapes_evaluation import CityscapesInstanceEvaluator, CityscapesSemSegEvaluator
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/evaluation/cityscapes_evaluation.py", line 11, in <module>
+    from detectron2.data import MetadataCatalog
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/data/__init__.py", line 4, in <module>
+    from .build import (
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/data/build.py", line 13, in <module>
+    from detectron2.structures import BoxMode
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/structures/__init__.py", line 3, in <module>
+    from .image_list import ImageList
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/structures/image_list.py", line 8, in <module>
+    from detectron2.layers.wrappers import shapes_to_tensor
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/layers/__init__.py", line 3, in <module>
+    from .deform_conv import DeformConv, ModulatedDeformConv
+  File "/zhome/df/0/181554/miniconda3/envs/test2/lib/python3.8/site-packages/detectron2/layers/deform_conv.py", line 11, in <module>
+    from detectron2 import _C
+ImportError: libc10_cuda.so: cannot open shared object file: No such file or directory

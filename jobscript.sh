@@ -31,7 +31,9 @@ nvidia-smi
 module load gcc/7.5.0
 module load cuda/11.6
 
-/zhome/db/7/181395/miniconda3/envs/cubercnn/bin/python \
-    demo/demo.py --config-file cubercnn://omni3d/cubercnn_DLA34_FPN.yaml \
-    --input-folder "datasets/coco_examples" --threshold 0.25 --display \ 
-    MODEL.WEIGHTS cubercnn://omni3d/cubercnn_DLA34_FPN.pth OUTPUT_DIR output/demo  
+echo "____im here"
+
+# /zhome/db/7/181395/miniconda3/envs/cubercnn/bin/python \
+#     demo/demo.py --config-file cubercnn://omni3d/cubercnn_DLA34_FPN.yaml \
+#     --input-folder "datasets/coco_examples" --threshold 0.25 --display \ 
+#     MODEL.WEIGHTS cubercnn://omni3d/cubercnn_DLA34_FPN.pth OUTPUT_DIR output/demo  
