@@ -30,6 +30,8 @@ args = parser.parse_args()
 
 
 def main():
+
+    print("Model will run on: " + str(torch.cuda.is_available()))
     assert (os.path.exists(args.config))
     cfg = yaml.load(open(args.config, 'r'), Loader=yaml.Loader)
     set_random_seed(cfg.get('random_seed', 444))
