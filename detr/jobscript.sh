@@ -30,4 +30,4 @@
 module load cuda/11.3
 
 # run detr model first  
-/zhome/db/7/181395/miniconda3/envs/detr/bin/python/ -m torch.distributed.launch --nproc_per_node=1 --use_env main.py --coco_path /path/to/coco 
+/zhome/db/7/181395/miniconda3/envs/detr/bin/python -m torch.distributed.launch --nproc_per_node=1 --use_env main.py --coco_path /path/to/coco 
