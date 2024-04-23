@@ -36,6 +36,8 @@ In this project, you can use either the SUN RGB-D [11] or the KITTI dataset [3],
  I found some nice pictures and annotation for the data at nigth: 
 
 - [nuscenes](https://www.nuscenes.org/nuscenes?sceneId=scene-1099&frame=0&view=regular)
+- [devKit](https://www.nuscenes.org/public/tutorials/nuscenes_tutorial.html)
+
 
 Here the list of scenes: 
 <details>
