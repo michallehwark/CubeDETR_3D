@@ -5,3 +5,10 @@ MonoDTR
 LICENSE.md
 *.err
 *.out
+
+.DS_Store
+venv/
+Kitti/
+Coco
+Coco_1
+wget-log
