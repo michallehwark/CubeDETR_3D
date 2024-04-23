@@ -13,10 +13,6 @@ from torch.utils.data import DataLoader, DistributedSampler
 import datasets
 import util.misc as utils
 from datasets import build_dataset, get_coco_api_from_dataset
-from datasets.kitti_loader import KittiDataset
-from torchvision import transforms
-
-
 from engine import evaluate, train_one_epoch
 from models import build_model
 
@@ -83,10 +79,9 @@ def get_args_parser():
                         help="Relative classification weight of the no-object class")
 
     # dataset parameters
-    ##parser.add_argument('--dataset_file', default='coco')
-    ##parser.add_argument('--coco_path', type=str)
-    ##parser.add_argument('--coco_panoptic_path', type=str)
-    parser.add_argument('--kitti_path', type=str, default='/path/to/kitti/dataset', help='Path to the Kitti dataset')
+    parser.add_argument('--dataset_file', default='coco')
+    parser.add_argument('--coco_path', type=str)
+    parser.add_argument('--coco_panoptic_path', type=str)
     parser.add_argument('--remove_difficult', action='store_true')
 
     parser.add_argument('--output_dir', default='',
@@ -144,16 +139,8 @@ def main(args):
                                   weight_decay=args.weight_decay)
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, args.lr_drop)
 
-    ## COCO DATASET 
-    #dataset_train = build_dataset(image_set='train', args=args)
-    #dataset_val = build_dataset(image_set='val', args=args)
-
-    dataset_train = KittiDataset(root_dir=args.kitti_path, transform=transforms.ToTensor())  # Modify the transform as needed
-    dataset_val = KittiDataset(root_dir=args.kitti_path, transform=transforms.ToTensor())  # Modify the transform as needed
-
-
-    ## KITTI DATASET
-    ## todo
+    dataset_train = build_dataset(image_set='train', args=args)
+    dataset_val = build_dataset(image_set='val', args=args)
 
     if args.distributed:
         sampler_train = DistributedSampler(dataset_train)
