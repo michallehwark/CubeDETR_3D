@@ -48,7 +48,7 @@ def box_iou(boxes1, boxes2):
     return iou, union
 
 
-def generalized_box_iou(boxes1, boxes2):
+def generalized_box_iou(boxes1_bf, boxes2_bf):
     """
     Generalized IoU from https://giou.stanford.edu/
 
@@ -59,6 +59,13 @@ def generalized_box_iou(boxes1, boxes2):
     """
     # degenerate boxes gives inf / nan results
     # so do an early check
+    boxes1 = box_cxcylrtb_to_xyxy(boxes1_bf)
+    boxes2 = box_cxcylrtb_to_xyxy(boxes2_bf)
+
+    if not (boxes1[:, 2:] >= boxes1[:, :2]).all():
+        print('box1_prediction, x0/y0', boxes1[:, 2:])
+        print('box1_prediction, x1/y1', boxes1[:, :2])
+        
     assert (boxes1[:, 2:] >= boxes1[:, :2]).all()
     assert (boxes2[:, 2:] >= boxes2[:, :2]).all()
     iou, union = box_iou(boxes1, boxes2)

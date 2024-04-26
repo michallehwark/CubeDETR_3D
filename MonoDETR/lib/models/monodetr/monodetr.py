@@ -379,15 +379,13 @@ class SetCriterion(nn.Module):
         # l1
         loss_bbox = F.l1_loss(src_2dboxes, target_2dboxes, reduction='none')
         losses = {}
-        losses['loss_bbox'] = loss_bbox.sum() / num_boxes
+        losses['loss_bbox'] = loss_bbox.sum() / num_boxes if num_boxes > 0 else loss_bbox.sum()
 
         # giou
         src_boxes = outputs['pred_boxes'][idx]
         target_boxes = torch.cat([t['boxes_3d'][i] for t, (_, i) in zip(targets, indices)], dim=0)
-        loss_giou = 1 - torch.diag(box_ops.generalized_box_iou(
-            box_ops.box_cxcylrtb_to_xyxy(src_boxes),
-            box_ops.box_cxcylrtb_to_xyxy(target_boxes)))
-        losses['loss_giou'] = loss_giou.sum() / num_boxes
+        loss_giou = 1 - torch.diag(box_ops.generalized_box_iou(src_boxes, target_boxes))
+        losses['loss_giou'] = loss_giou.sum() / num_boxes if num_boxes > 0 else loss_giou.sum()
         return losses
 
     def loss_depths(self, outputs, targets, indices, num_boxes):  

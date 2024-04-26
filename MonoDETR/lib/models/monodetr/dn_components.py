@@ -249,9 +249,7 @@ def tgt_loss_boxes(src_boxes, tgt_boxes, num_tgt,):
     losses = {}
     losses['tgt_loss_bbox'] = loss_bbox.sum() / num_tgt
 
-    loss_giou = 1 - torch.diag(box_ops.generalized_box_iou(
-        box_ops.box_cxcylrtb_to_xyxy(src_boxes),
-        box_ops.box_cxcylrtb_to_xyxy(tgt_boxes)))
+    loss_giou = 1 - torch.diag(box_ops.generalized_box_iou(src_boxes, tgt_boxes))
     losses['tgt_loss_giou'] = loss_giou.sum() / num_tgt
     return losses
 

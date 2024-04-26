@@ -14,8 +14,14 @@ wget https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_label_2.zip
 unzip data_object_label_2.zip -d data/KITTIDataset/training_labels/
 mv data/KITTIDataset/training_labels/training/label_2 data/KITTIDataset/training_labels/
 
+# calib
+wget https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_calib.zip
+unzip data_object_calib.zip
+mv training/calib data/training
+
 # clean
 rm -rf datasets/testing
-rm -rf datasets/trainig
+rm -rf datasets/training
 rm data_object_image_2.zip
 rm data_object_label_2.zip
+rm data_object_calib.zip

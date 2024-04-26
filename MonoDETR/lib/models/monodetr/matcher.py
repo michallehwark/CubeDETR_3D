@@ -80,7 +80,7 @@ class HungarianMatcher(nn.Module):
         # Compute the giou cost betwen boxes
         out_bbox = outputs["pred_boxes"].flatten(0, 1)  # [batch_size * num_queries, 4]
         tgt_bbox = torch.cat([v["boxes_3d"] for v in targets])
-        cost_giou = -generalized_box_iou(box_cxcylrtb_to_xyxy(out_bbox), box_cxcylrtb_to_xyxy(tgt_bbox))
+        cost_giou = -generalized_box_iou(out_bbox, tgt_bbox)
 
         # Final cost matrix
         C = self.cost_bbox * cost_bbox + self.cost_3dcenter * cost_3dcenter + self.cost_class * cost_class + self.cost_giou * cost_giou
