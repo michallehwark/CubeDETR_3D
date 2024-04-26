@@ -48,6 +48,7 @@ class KITTI_Dataset(data.Dataset):
         assert self.split in ['train', 'val', 'trainval', 'test']
         self.split_file = os.path.join(self.root_dir, 'ImageSets', self.split + '.txt')
         self.idx_list = [x.strip() for x in open(self.split_file).readlines()]
+        print(f"#{split}={len(self.idx_list)}")
 
         # path configuration
         self.data_dir = os.path.join(self.root_dir, 'testing' if split == 'test' else 'training')

@@ -286,8 +286,9 @@ class DepthAwareTransformer(nn.Module):
             reference_points = self.reference_points(query_embed).sigmoid()
             init_reference_out = reference_points
 
-        depth_pos_embed = depth_pos_embed.flatten(2).permute(2, 0, 1)
-        depth_pos_embed_ip = depth_pos_embed_ip.flatten(2).permute(2, 0, 1)
+        if (depth_pos_embed is not None) and (depth_pos_embed_ip is not None):
+            depth_pos_embed = depth_pos_embed.flatten(2).permute(2, 0, 1)
+            depth_pos_embed_ip = depth_pos_embed_ip.flatten(2).permute(2, 0, 1)
         mask_depth = masks[1].flatten(1)
 
         # decoder
@@ -453,12 +454,13 @@ class DepthAwareDecoderLayer(nn.Module):
                 query_pos_un=None):
 
         # depth cross attention
-        tgt2 = self.cross_attn_depth(tgt.transpose(0, 1),
-                                     depth_pos_embed,
-                                     depth_pos_embed,
-                                     key_padding_mask=mask_depth)[0].transpose(0, 1)
-       
-        tgt = tgt + self.dropout_depth(tgt2)
+        if depth_pos_embed is not None:
+            tgt2 = self.cross_attn_depth(tgt.transpose(0, 1),
+                                        depth_pos_embed,
+                                        depth_pos_embed,
+                                        key_padding_mask=mask_depth)[0].transpose(0, 1)
+        
+            tgt = tgt + self.dropout_depth(tgt2)
         tgt = self.norm_depth(tgt)
 
         # self attention

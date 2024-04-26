@@ -111,7 +111,9 @@ class Tester(object):
 
     def save_results(self, results):
         output_dir = os.path.join(self.output_dir, 'outputs', 'data')
-        os.makedirs(output_dir, exist_ok=True)
+        if os.path.exists(output_dir):
+            shutil.rmtree(output_dir)
+        os.makedirs(output_dir)
 
         for img_id in results.keys():
             if self.dataset_type == 'KITTI':

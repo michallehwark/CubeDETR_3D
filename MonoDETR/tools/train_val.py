@@ -42,6 +42,8 @@ def main():
 
     log_file = os.path.join(output_path, 'train.log.%s' % datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
     logger = create_logger(log_file)
+    logger.info('###################  Arugments  ##################')
+    logger.info(cfg)
 
     # build dataloader
     train_loader, test_loader = build_dataloader(cfg['dataset'])

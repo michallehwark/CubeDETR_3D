@@ -198,10 +198,14 @@ class MonoDETR(nn.Module):
                 # only use one group in inference
                 query_embeds = self.query_embed.weight[:self.num_queries]
 
-        pred_depth_map_logits, depth_pos_embed, weighted_depth, depth_pos_embed_ip = self.depth_predictor(srcs, masks[1], pos[1])
-        
-        hs, init_reference, inter_references, inter_references_dim, enc_outputs_class, enc_outputs_coord_unact = self.depthaware_transformer(
-            srcs, masks, pos, query_embeds, depth_pos_embed, depth_pos_embed_ip)#, attn_mask)
+        if self.depth_predictor:
+            pred_depth_map_logits, depth_pos_embed, weighted_depth, depth_pos_embed_ip = self.depth_predictor(srcs, masks[1], pos[1])
+            
+            hs, init_reference, inter_references, inter_references_dim, enc_outputs_class, enc_outputs_coord_unact = self.depthaware_transformer(
+                srcs, masks, pos, query_embeds, depth_pos_embed, depth_pos_embed_ip)#, attn_mask)
+        else:
+            hs, init_reference, inter_references, inter_references_dim, enc_outputs_class, enc_outputs_coord_unact = self.depthaware_transformer(
+                srcs, masks, pos, query_embeds, None, None)
 
         outputs_coords = []
         outputs_classes = []
@@ -236,25 +240,28 @@ class MonoDETR(nn.Module):
             size3d = inter_references_dim[lvl]
             outputs_3d_dims.append(size3d)
 
-            # depth_geo
-            box2d_height_norm = outputs_coord[:, :, 4] + outputs_coord[:, :, 5]
-            box2d_height = torch.clamp(box2d_height_norm * img_sizes[:, 1: 2], min=1.0)
-            depth_geo = size3d[:, :, 0] / box2d_height * calibs[:, 0, 0].unsqueeze(1)
-
             # depth_reg
             depth_reg = self.depth_embed[lvl](hs[lvl])
 
-            # depth_map
-            outputs_center3d = ((outputs_coord[..., :2] - 0.5) * 2).unsqueeze(2).detach()
-            depth_map = F.grid_sample(
-                weighted_depth.unsqueeze(1),
-                outputs_center3d,
-                mode='bilinear',
-                align_corners=True).squeeze(1)
+            if self.depth_predictor:
+                # depth_geo
+                box2d_height_norm = outputs_coord[:, :, 4] + outputs_coord[:, :, 5]
+                box2d_height = torch.clamp(box2d_height_norm * img_sizes[:, 1: 2], min=1.0)
+                depth_geo = size3d[:, :, 0] / box2d_height * calibs[:, 0, 0].unsqueeze(1)
 
-            # depth average + sigma
-            depth_ave = torch.cat([((1. / (depth_reg[:, :, 0: 1].sigmoid() + 1e-6) - 1.) + depth_geo.unsqueeze(-1) + depth_map) / 3,
-                                    depth_reg[:, :, 1: 2]], -1)
+                # depth_map
+                outputs_center3d = ((outputs_coord[..., :2] - 0.5) * 2).unsqueeze(2).detach()
+                depth_map = F.grid_sample(
+                    weighted_depth.unsqueeze(1),
+                    outputs_center3d,
+                    mode='bilinear',
+                    align_corners=True).squeeze(1)
+
+                # depth average + sigma
+                depth_ave = torch.cat([((1. / (depth_reg[:, :, 0: 1].sigmoid() + 1e-6) - 1.) + depth_geo.unsqueeze(-1) + depth_map) / 3,
+                                        depth_reg[:, :, 1: 2]], -1)
+            else:
+                depth_ave = depth_reg 
             outputs_depths.append(depth_ave)
 
             # angles
@@ -271,7 +278,7 @@ class MonoDETR(nn.Module):
         out['pred_3d_dim'] = outputs_3d_dim[-1]
         out['pred_depth'] = outputs_depth[-1]
         out['pred_angle'] = outputs_angle[-1]
-        out['pred_depth_map_logits'] = pred_depth_map_logits
+        if self.depth_predictor: out['pred_depth_map_logits'] = pred_depth_map_logits
 
         if self.aux_loss:
             out['aux_outputs'] = self._set_aux_loss(
@@ -553,7 +560,7 @@ def build(cfg):
     depthaware_transformer = build_depthaware_transformer(cfg)
 
     # depth prediction module
-    depth_predictor = DepthPredictor(cfg)
+    depth_predictor = DepthPredictor(cfg) if cfg['with_depth'] else None
 
     model = MonoDETR(
         backbone,
@@ -597,7 +604,8 @@ def build(cfg):
         aux_weight_dict.update({k + f'_enc': v for k, v in weight_dict.items()})
         weight_dict.update(aux_weight_dict)
 
-    losses = ['labels', 'boxes', 'cardinality', 'depths', 'dims', 'angles', 'center', 'depth_map']
+    losses = ['labels', 'boxes', 'cardinality', 'depths', 'dims', 'angles', 'center']
+    if cfg['with_depth']: losses.append('depth_map')
     
     criterion = SetCriterion(
         cfg['num_classes'],
