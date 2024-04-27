@@ -3,6 +3,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from .transformer import TransformerEncoder, TransformerEncoderLayer
 
+import math
+import matplotlib.pyplot as plt
+
 
 class DepthPredictor(nn.Module):
 
@@ -51,7 +54,11 @@ class DepthPredictor(nn.Module):
 
         self.depth_encoder = TransformerEncoder(depth_encoder_layer, 1)
 
-        self.depth_pos_embed = nn.Embedding(int(self.depth_max) + 1, 256)
+        if model_cfg['depth_pos_embed'] == 'fixed':
+            self.depth_pos_embed = PositionalEncoding(int(self.depth_max) + 1, 256)
+            plot_depth_pos_embed(self.depth_pos_embed)
+        else: # learned 
+            self.depth_pos_embed = nn.Embedding(int(self.depth_max) + 1, 256)        
 
     def forward(self, feature, mask, pos):
        
@@ -102,3 +109,36 @@ class DepthPredictor(nn.Module):
         floor_coord = floor_coord.long()
         ceil_coord = (floor_coord + 1).clamp(max=embed.num_embeddings - 1)
         return embed(floor_coord) * (1 - delta) + embed(ceil_coord) * delta
+    
+
+class PositionalEncoding(nn.Module):
+    def __init__(self, num_embeddings, embedding_dim=256, n=10000.0):
+
+        super(PositionalEncoding, self).__init__()
+
+        self.num_embeddings = num_embeddings
+        self.embedding_dim = embedding_dim
+        self.n = n
+
+        self.weight = self.get_positional_encoding(
+            num_embeddings, embedding_dim)
+
+    def forward(self, idx):
+        return self.weight[idx, :]
+
+    def get_positional_encoding(self, seq_len, embed_dim, n=10000, device='cuda'):
+        positional_encoding = torch.zeros((seq_len, embed_dim))
+        for k in range(seq_len):
+            for i in torch.arange(int(embed_dim/2)):
+                denominator = torch.pow(n, 2*i/embed_dim)
+                positional_encoding[k, 2*i] = torch.sin(k/denominator)
+                positional_encoding[k, 2*i+1] = torch.cos(k/denominator)
+        return positional_encoding.to(device)
+
+
+def plot_depth_pos_embed(pos_emb):
+    cax = plt.matshow(pos_emb.weight.cpu().detach().numpy())
+    plt.gcf().colorbar(cax)
+    plt.savefig('figures/fixed_pos_embed.png', bbox_inches='tight')
+    plt.savefig('figures/fixed_pos_embed.pdf', bbox_inches='tight')
+    print("Saved depth positional embedding")

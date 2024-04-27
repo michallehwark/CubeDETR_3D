@@ -41,7 +41,8 @@ model:
   masks: False
 
   # Depth predictor
-  with_depth: False 
+  with_depth: True 
+  depth_pos_embed: fixed # fixed or learned 
   mode: LID
   num_depth_bins: 80
   depth_min: 1e-3
