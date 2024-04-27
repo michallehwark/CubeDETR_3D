@@ -1,3 +1,8 @@
 # file to ignore the file to github
+__pycache__
 
-# datasets
+MonoDETR/data/training/
+MonoDETR/data/testing/
+MonoDETR/lib/models/monodetr/ops/
+*.pth
+MonoDETR/outputs/monodetr/outputs/data/

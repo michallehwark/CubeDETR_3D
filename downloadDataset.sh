@@ -16,6 +16,6 @@ mv datasets/Kitti/training_labels/training/label_2 datasets/Kitti/training_label
 
 # clean
 rm -rf datasets/testing
-rm -rf datasets/trainig
+rm -rf datasets/training
 rm data_object_image_2.zip
 rm data_object_label_2.zip
