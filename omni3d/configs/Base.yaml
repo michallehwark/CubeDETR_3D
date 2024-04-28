@@ -17,7 +17,7 @@ TEST:
   EVAL_PERIOD: 16000
 DATASETS:
   TRAIN: ('KITTI_train', 'KITTI_val')
-  TEST: ('KITTI_test',) 
+  TEST: ('KITTI_val',) 
   CATEGORY_NAMES: ('pedestrian', 'car', 'cyclist', 'van', 'truck', 'tram', 'person')
   IGNORE_NAMES: "['dontcare', 'ignore', 'void']"
   MIN_HEIGHT_THRES: 0.05

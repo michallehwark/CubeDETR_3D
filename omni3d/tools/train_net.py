@@ -52,6 +52,7 @@ import cubercnn.vis.logperf as utils_logperf
 
 MAX_TRAINING_ATTEMPTS = 10
 
+# torch.cuda.set_device(1)
 
 def do_test(cfg, model, iteration='final', storage=None):
         
