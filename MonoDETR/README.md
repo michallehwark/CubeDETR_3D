@@ -3,6 +3,18 @@ Official implementation of ['MonoDETR: Depth-guided Transformer for Monocular 3D
 
 The paper has been accepted by **ICCV 2023** 🎉.
 
+## ADLCV 
+
+We run three models: 
+- original monodetr (baseline)
+- monodetr without depth guidance (nodepth)
+- monodetr with depth guidance but fixed depth positional encoding (fixeddepth)
+
+Trained models are [here](https://drive.google.com/drive/folders/11PWVvZQk1nQr0JOgGottxEDZxA-TRsi3?usp=sharing). Log results are found in `outputs/monodetr/`. Images of learned/fixed depth positional enbedding are in `figures/`. 
+
+
+
+
 ## News
 * **[2023-08]** A ***More Stable Version*** 🌟 of MonoDETR on KITTI is now released! 🔥🔥🔥
 * **[2022-04]** The initial code of MonoDETR on KITTI is released
